@@ -27,6 +27,15 @@ func SetupRouter() *gin.Engine {
 			category.PUT("/:id", controllers.UpdateCategoryHandler)
 			category.DELETE("/:id", controllers.DeleteCategoryHandler)
 		}
+
+		brand := authGroup.Group("/brands")
+		{
+			brand.POST("/", controllers.CreateBrandHandler)
+			brand.GET("/", controllers.GetBrandsHandler)
+			brand.GET("/:id", controllers.GetBrandByIDHandler)
+			brand.PUT("/:id", controllers.UpdateBrandHandler)
+			brand.DELETE(":id", controllers.DeleteBrandHandler)
+		}
 	}
 	return r
 }
