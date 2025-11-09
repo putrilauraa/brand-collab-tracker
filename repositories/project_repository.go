@@ -6,7 +6,7 @@ import (
 )
 
 type ProjectInput struct{
-	BrandID uint `json:"brad_id" binding:"required"`
+	BrandID uint `json:"brand_id" binding:"required"`
 	ProjectName string `json:"project_name" binding:"required"`
 	TargetCompletionDate string `json:"target_completion_date"`
 	Status string `json:"status"`
