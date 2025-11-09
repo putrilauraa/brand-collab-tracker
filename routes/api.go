@@ -9,6 +9,13 @@ import (
 func SetupRouter() *gin.Engine {
 	r := gin.Default()
 
+	r.GET("/", func(c *gin.Context) {
+        c.JSON(200, gin.H{
+            "status": "up",
+            "message": "Brand Collaboration Tracker API is running!",
+        })
+    })
+
 	api := r.Group("/api")
 	{
 		users := api.Group("/users")
