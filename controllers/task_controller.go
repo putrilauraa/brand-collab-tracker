@@ -27,7 +27,7 @@ func CreateTaskHandler(c *gin.Context) {
 }
 
 func GetTaskByProjectHandler(c *gin.Context) {
-	projectID, err := strconv.Atoi(c.Param("projectID"))
+	projectID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid project ID"})
 		return

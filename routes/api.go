@@ -45,9 +45,9 @@ func SetupRouter() *gin.Engine {
 			project.PUT("/:id", controllers.UpdateProjectHandler)
 			project.DELETE("/:id", controllers.DeleteProjectHandler)
 
-			project.GET("/:projectID/tasks", controllers.GetTaskByProjectHandler)
-			
-			project.GET("/:projectID/attachments", controllers.GetAttachmentsByProjectHandler)
+			project.GET("/:id/tasks", controllers.GetTaskByProjectHandler)
+
+			project.GET("/:id/attachments", controllers.GetAttachmentsByProjectHandler)
 		}
 
 		task := authGroup.Group("/tasks")
