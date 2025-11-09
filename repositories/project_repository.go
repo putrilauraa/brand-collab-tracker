@@ -5,7 +5,7 @@ import (
 	"brand-collab-tracker/config"
 )
 
-type ProjectInput struct{
+type ProjectInput struct {
 	BrandID uint `json:"brand_id" binding:"required"`
 	ProjectName string `json:"project_name" binding:"required"`
 	TargetCompletionDate string `json:"target_completion_date"`
@@ -16,6 +16,7 @@ type ProjectInput struct{
 
 func CreateProject(input ProjectInput) (*models.Project, error) {
 	project := models.Project{
+		BrandID: input.BrandID,
 		ProjectName: input.ProjectName,
 		TargetCompletionDate: input.TargetCompletionDate,
 		Status: input.Status,
