@@ -12,5 +12,5 @@ type Brand struct {
     CategoryID uint
     Category CategoryMaster
     
-    Projects []Project `gorm:"foreignKey:BrandID"` 
+    Projects []Project `gorm:"foreignKey:BrandID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }
