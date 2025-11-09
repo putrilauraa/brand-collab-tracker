@@ -5,19 +5,20 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"brand-collab-tracker/models"
 	"brand-collab-tracker/repositories"
+	"gorm.io/gorm"
 )
 
 func CreateCategoryHandler(c *gin.Context) {
-	var category models.CategoryMaster
-	if err := c.ShouldBindJSON(&category); err != nil {
+	var input repositories.CategoryInput
+	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input", "details": err.Error()})
 		return
 	}
 
-	if err := repositories.CreateCategory(&category); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to make category", "details": err.Error()})
+	category, err := repositories.CreateCategory(input)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create category", "details": err.Error()})
 		return
 	}
 
@@ -36,17 +37,24 @@ func GetCategoriesHandler(c *gin.Context) {
 
 func UpdateCategoryHandler(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
-	category, err := repositories.GetCategoryByID(uint(id))
 
-	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Category not found"})
-		return
-	}
-
-	if err := c.ShouldBindJSON(&category); err != nil {
+	var input repositories.CategoryInput
+	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input", "details": err.Error()})
 		return
 	}
+
+	category, err := repositories.GetCategoryByID(uint(id))
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			c.JSON(http.StatusNotFound, gin.H{"error": "Category not found"})
+			return
+		}
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch category", "details": err.Error()})
+		return
+	}
+
+	category.Name = input.Name
 
 	if err := repositories.UpdateCategory(&category); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update category", "details": err.Error()})

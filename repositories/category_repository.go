@@ -5,8 +5,17 @@ import (
 	"brand-collab-tracker/models"
 )
 
-func CreateCategory(category *models.CategoryMaster) error {
-	return config.DB.Create(category).Error
+type CategoryInput struct {
+	Name string `json:"name" binding:"required"`
+}
+
+func CreateCategory(input CategoryInput) (*models.CategoryMaster, error) {
+	category := models.CategoryMaster {
+		Name: input.Name,
+	}
+
+	err := config.DB.Create(&category).Error
+	return &category, err
 }
 
 func GetCategoryByID(id uint) (models.CategoryMaster, error) {
