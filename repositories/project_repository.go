@@ -41,8 +41,7 @@ func GetProjects() ([]models.Project, error) {
 
 func GetProjectByID(id uint) (*models.Project, error) {
 	var project models.Project
-	// err := config.DB.Preload("Brand.Category").Preload("Tasks").Preload("Attachments").First(&project, id).Error
-	err := config.DB.First(&project, id).Error
+	err := config.DB.Preload("Brand.Category").Preload("Tasks").Preload("Attachments").First(&project, id).Error
 	return &project, err
 }
 
