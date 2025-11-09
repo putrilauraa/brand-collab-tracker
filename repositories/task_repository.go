@@ -15,6 +15,7 @@ type TaskInput struct {
 
 func CreateTask(input TaskInput) (*models.Task, error) {
 	task := models.Task {
+		ProjectID: input.ProjectID,
 		TaskName: input.TaskName,
 		IsCompleted: input.IsCompleted,
 		CompletionDate: input.CompletionDate,
