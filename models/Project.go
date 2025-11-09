@@ -6,7 +6,7 @@ type Project struct {
     gorm.Model
     ID uint `gorm:"primaryKey"`
     
-    BrandID uint `gorm:"not null;index:idx_brand_id,unique;references:ID"`
+    BrandID uint `gorm:"index:idx_brand_id"`
     Brand Brand 
     
     ProjectName string `gorm:"size:255;not null"`
