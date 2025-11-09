@@ -27,19 +27,19 @@ func CreateTask(input TaskInput) (*models.Task, error) {
 		return nil, result.Error
 	}
 
-	config.DB.Preload("Project").First(&task, task.ID)
+	config.DB.Preload("Brand.Category").Preload("Project").First(&task, task.ID)
 	return &task, nil
 }
 
 func GetTaskByProject(projectID uint) ([]models.Task, error) {
 	var tasks []models.Task
-	err := config.DB.Where("project_id = ?", projectID).Preload("Project").Find(&tasks).Error
+	err := config.DB.Where("project_id = ?", projectID).Preload("Brand.Category").Preload("Project").Find(&tasks).Error
 	return tasks, err
 }
 
 func GetTaskByID(id uint) (*models.Task, error) {
 	var task models.Task
-	err := config.DB.Preload("Project").First(&task, id).Error
+	err := config.DB.Preload("Brand.Category").Preload("Project").First(&task, id).Error
 	return &task, err
 }
 
@@ -59,7 +59,7 @@ func UpdateTask(id uint, input TaskInput) (*models.Task, error) {
 		return nil, result.Error
 	}
 
-	config.DB.Preload("Project").First(&task, task.ID)
+	config.DB.Preload("Brand.Category").Preload("Project").First(&task, task.ID)
 	return task, nil
 }
 
